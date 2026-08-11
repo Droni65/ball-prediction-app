@@ -110,8 +110,7 @@ export function parseSingleMatchPage(
   fallbackMatch?: Partial<Match1X2>,
 ): SingleMatchDetails | null {
   const text = stripTags(html);
-  //const title = extractTitle(html, "");
-  const title = "";
+  const title = extractTitle(html, "");
   const { homeTeam, awayTeam } = extractTeamsFromText(text, fallbackMatch);
   const league = extractLeague(text, fallbackMatch);
   const { date, time } = extractDate(text);
@@ -150,7 +149,7 @@ export function parseSingleMatchPage(
   const scoreMatch = text.match(/predicted to finish\s*(\d+)\s*-\s*(\d+)/i);
 
   return {
-    title: `${homeTeam} vs ${awayTeam}`,
+    title: title || `${homeTeam} vs ${awayTeam}`,
     league,
     homeTeam,
     awayTeam,
