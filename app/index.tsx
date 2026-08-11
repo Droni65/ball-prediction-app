@@ -1,5 +1,6 @@
 // app/index.tsx
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -94,6 +95,7 @@ function getSortValue(match: Match1X2, column: SortableColumnKey) {
 }
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [matches, setMatches] = useState<Match1X2[]>([]);
   const [oneXTwoMatches, setOneXTwoMatches] = useState<Match1X2[]>([]);
   const [loading, setLoading] = useState(true);
@@ -421,7 +423,16 @@ export default function HomeScreen() {
               onRefresh={loadMatches}
               refreshing={loading}
               renderItem={({ item }) => (
-                <MatchRow match={item} source={activeSource} />
+                <Pressable
+                  onPress={() =>
+                    router.push({
+                      pathname: "/match/[id]",
+                      params: { id: item.id, match: JSON.stringify(item) },
+                    })
+                  }
+                >
+                  <MatchRow match={item} source={activeSource} />
+                </Pressable>
               )}
               ListEmptyComponent={
                 !loading && !error ? (
