@@ -422,18 +422,19 @@ export default function HomeScreen() {
               keyExtractor={(item) => item.id}
               onRefresh={loadMatches}
               refreshing={loading}
-              renderItem={({ item }) => (
-                <Pressable
-                  onPress={() =>
-                    router.push({
-                      pathname: "/match/[id]",
-                      params: { id: item.id, match: JSON.stringify(item) },
-                    })
-                  }
-                >
-                  <MatchRow match={item} source={activeSource} />
-                </Pressable>
-              )}
+              renderItem={({ item }) => {
+                const handlePress = () => {
+                  router.push({
+                    pathname: "/match/[id]",
+                    params: { id: item.id, match: JSON.stringify(item) },
+                  });
+                };
+                return (
+                  <Pressable onPress={handlePress}>
+                    <MatchRow match={item} source={activeSource} />
+                  </Pressable>
+                );
+              }}
               ListEmptyComponent={
                 !loading && !error ? (
                   <Text style={styles.empty}>Nessuna partita trovata.</Text>
