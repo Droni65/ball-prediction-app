@@ -42,8 +42,14 @@ const pages = [
   {
     eyebrow: "Filtri e ricerca",
     title: "Trova solo ciò che ti interessa",
-    text: "Usa la ricerca per trovare una squadra. Puoi anche scegliere una colonna, un operatore (<, >, =) e una percentuale per filtrare i risultati.",
+    text: "Usa la ricerca per trovare una squadra o un campionato. Puoi anche scegliere una colonna, un operatore (<, >, =) e una percentuale per filtrare i risultati.",
     icon: "⌕  %  >",
+  },
+  {
+    eyebrow: "Nuovo",
+    title: "Tab Campionati",
+    text: "Dal nuovo tab Campionati puoi vedere i campionati presenti nei dati caricati e selezionarne uno per applicare subito il filtro sul campionato desiderato.",
+    icon: "⚽",
   },
   {
     eyebrow: "Nuovo",

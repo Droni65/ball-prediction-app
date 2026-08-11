@@ -49,9 +49,20 @@ Questo tab raccoglie le opzioni di doppia possibilità:
 
 È utile per chi vuole avere una scelta più sicura tra le possibili esito della partita.
 
+### Tab Campionati
+
+In questa sezione trovi l’elenco dei campionati realmente presenti nei dati caricati dall’app. Selezionando un elemento, l’app:
+
+- imposta automaticamente il termine nella barra di ricerca
+- passa alla ricerca per campionato
+- mostra subito le partite corrispondenti
+
+È un modo rapido per concentrarsi su una competizione specifica senza cercarla manualmente.
+
 ## Funzioni principali
 
 - Ricerca rapida per trovare una squadra o una partita specifica
+- Ricerca per campionato attraverso il nuovo tab dedicato
 - Filtri per mostrare solo le partite che soddisfano determinate percentuali
 - Ordinamento delle colonne in modo crescente o decrescente
 - Visualizzazione immediata dei dati principali di ogni pronostico
