@@ -1,12 +1,9 @@
 // app/onboarding.tsx
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const ONBOARDING_DISABLED_KEY = "@ball_prediction_onboarding_disabled";
 
 const pages = [
   {
@@ -35,7 +32,7 @@ const pages = [
   },
   {
     eyebrow: "Tab 4",
-    title: "Double Chance",
+    title: "Doppia Scelta",
     text: "Confronta le tre doppie possibilità: 1X, 12 e X2. Questa sezione non mostra la colonna CS.",
     icon: "1X  12  X2",
   },
@@ -48,7 +45,7 @@ const pages = [
   {
     eyebrow: "Nuovo",
     title: "Tab Campionati",
-    text: "Dal nuovo tab Campionati puoi vedere i campionati presenti nei dati caricati e selezionarne uno per applicare subito il filtro sul campionato desiderato.",
+    text: "La sezione Campionati ti permette di vedere i campionati presenti nei dati caricati e selezionarne uno per applicare subito il filtro desiderato.",
     icon: "⚽",
   },
   {
@@ -67,40 +64,11 @@ const pages = [
 
 export default function OnboardingScreen() {
   const [page, setPage] = useState(0);
-  const [checking, setChecking] = useState(true);
-  const [shouldShow, setShouldShow] = useState(true);
   const current = pages[page];
   const isLast = page === pages.length - 1;
 
-  useEffect(() => {
-    AsyncStorage.getItem(ONBOARDING_DISABLED_KEY)
-      .then((value) => {
-        if (value === "true") {
-          router.replace("/");
-        } else {
-          setShouldShow(true);
-        }
-      })
-      .finally(() => {
-        setChecking(false);
-      });
-  }, []);
-
-  async function finish() {
+  function finish() {
     router.replace("/");
-  }
-
-  async function disableOnboarding() {
-    await AsyncStorage.setItem(ONBOARDING_DISABLED_KEY, "true");
-    router.replace("/");
-  }
-
-  if (checking) {
-    return null;
-  }
-
-  if (!shouldShow) {
-    return null;
   }
 
   return (
@@ -134,12 +102,6 @@ export default function OnboardingScreen() {
           </View>
           {isLast ? (
             <View style={styles.buttonGroup}>
-              <Pressable
-                style={[styles.button, styles.secondaryButton]}
-                onPress={disableOnboarding}
-              >
-                <Text style={styles.buttonText}>Non mostrare più</Text>
-              </Pressable>
               <Pressable style={styles.button} onPress={finish}>
                 <Text style={styles.buttonText}>Inizia</Text>
               </Pressable>

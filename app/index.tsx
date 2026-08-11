@@ -311,6 +311,15 @@ export default function HomeScreen() {
                 value={searchText}
                 onChangeText={setSearchText}
               />
+              {searchText.length > 0 ? (
+                <Pressable
+                  style={styles.clearButton}
+                  onPress={() => setSearchText("")}
+                  hitSlop={8}
+                >
+                  <Text style={styles.clearButtonText}>×</Text>
+                </Pressable>
+              ) : null}
               <Pressable
                 style={styles.searchModeButton}
                 onPress={() => setShowSearchModePicker(true)}
@@ -615,6 +624,20 @@ const styles = StyleSheet.create({
     color: "#FFF",
     borderRadius: 8,
     padding: 8,
+  },
+  clearButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#2A2E38",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "800",
+    lineHeight: 16,
   },
   searchModeButton: {
     backgroundColor: "#1B1E27",
