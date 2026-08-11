@@ -1,50 +1,61 @@
-# Welcome to your Expo app 👋
+# Ball Prediction
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Ball Prediction è un’applicazione pensata per aiutarti a consultare rapidamente i pronostici delle partite di calcio in modo semplice e immediato.
 
-## Get started
+## Cos’è l’app
 
-1. Install dependencies
+L’app mostra una lista di partite con le probabilità associate a diversi tipi di pronostici. Puoi cercare una squadra specifica, filtrare i risultati in base alle percentuali e ordinare le colonne per trovare subito le partite più interessanti.
 
-   ```bash
-   npm install
-   ```
+## Come funziona
 
-2. Start the app
+### Tab 1X2
 
-   ```bash
-   npx expo start
-   ```
+In questo tab trovi i pronostici classici della partita:
 
-In the output, you'll find options to open the app in a
+- 1: probabilità di vittoria della squadra di casa
+- X: probabilità di pareggio
+- 2: probabilità di vittoria della squadra ospite
+- CS: risultato esatto previsto, quando disponibile
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+È il tab più completo per chi vuole avere una visione generale del match.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Tab Under Over
 
-## Get a fresh project
+Questo tab è dedicato alle previsioni sui gol segnati:
 
-When you're ready, run:
+- U2.5: probabilità che la partita finisca con meno di 2,5 gol
+- U3.5: probabilità che la partita finisca con meno di 3,5 gol
+- CS: risultato esatto previsto, quando disponibile
 
-```bash
-npm run reset-project
-```
+È utile per chi preferisce seguire il trend delle partite in termini di gol.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Tab Gol NoGol
 
-## Learn more
+In questo tab vengono mostrate le previsioni relative alla presenza o meno di gol da entrambe le squadre:
 
-To learn more about developing your project with Expo, look at the following resources:
+- Yes: probabilità che entrambe le squadre segnino
+- No: probabilità che almeno una squadra non segni
+- CS: risultato esatto previsto, quando disponibile
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+È ideale per chi segue le partite con attenzione ai match più aperti o più chiusi.
 
-## Join the community
+### Tab Doppia Chance
 
-Join our community of developers creating universal apps.
+Questo tab raccoglie le opzioni di doppia possibilità:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- 1X: vittoria della squadra di casa o pareggio
+- 12: vittoria di una delle due squadre
+- X2: pareggio o vittoria della squadra ospite
+
+È utile per chi vuole avere una scelta più sicura tra le possibili esito della partita.
+
+## Funzioni principali
+
+- Ricerca rapida per trovare una squadra o una partita specifica
+- Filtri per mostrare solo le partite che soddisfano determinate percentuali
+- Ordinamento delle colonne in modo crescente o decrescente
+- Visualizzazione immediata dei dati principali di ogni pronostico
+
+## Obiettivo dell’app
+
+L’obiettivo di Ball Prediction è rendere semplice e veloce il confronto tra le diverse possibilità di risultato di una partita, aiutando l’utente a individuare subito le opzioni più interessanti.
