@@ -422,7 +422,7 @@ export default function HomeScreen() {
               keyExtractor={(item) => item.id}
               onRefresh={loadMatches}
               refreshing={loading}
-              renderItem={({ item }) => {
+                            renderItem={({ item }) => {
                 const handlePress = () => {
                   router.push({
                     pathname: "/match/[id]",
@@ -435,6 +435,7 @@ export default function HomeScreen() {
                   </Pressable>
                 );
               }}
+
               ListEmptyComponent={
                 !loading && !error ? (
                   <Text style={styles.empty}>Nessuna partita trovata.</Text>
