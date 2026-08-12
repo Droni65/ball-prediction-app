@@ -1,9 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
-    ActivityIndicator,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -12,18 +11,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Match1X2 } from "../../types/match";
-import {
-    parseSingleMatchPage,
-    SingleMatchDetails,
-} from "../../utils/parseSingleMatch";
 
 export default function MatchDetailScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id?: string; match?: string }>();
-  const [parsedDetails, setParsedDetails] = useState<SingleMatchDetails | null>(
-    null,
-  );
-  const [loadingDetails, setLoadingDetails] = useState(false);
+  
   const match = useMemo(() => {
     const rawMatch = Array.isArray(params.match)
       ? params.match[0]
@@ -36,41 +28,6 @@ export default function MatchDetailScreen() {
       return null;
     }
   }, [params.match]);
-
-  useEffect(() => {
-    if (!match?.matchUrl) {
-      setParsedDetails(null);
-      setLoadingDetails(false);
-      return;
-    }
-
-    let isActive = true;
-    const loadDetails = async () => {
-      setLoadingDetails(true);
-      try {
-        if (!match.matchUrl) {
-          if (!isActive) return;
-          setParsedDetails(null);
-          return;
-        }
-
-        const response = await fetch(match.matchUrl);
-        const html = await response.text();
-        if (!isActive) return;
-        setParsedDetails(parseSingleMatchPage(html, match));
-      } catch {
-        if (isActive) setParsedDetails(null);
-      } finally {
-        if (isActive) setLoadingDetails(false);
-      }
-    };
-
-    loadDetails();
-
-    return () => {
-      isActive = false;
-    };
-  }, [match]);
 
   const browserUrl = useMemo(() => {
     if (!match) return null;
@@ -96,8 +53,6 @@ export default function MatchDetailScreen() {
 
     return `https://ballprediction.com/${leagueSlug}/${homeSlug}-v-${awaySlug}`;
   }, [match]);
-
-  const details = parsedDetails ?? null;
 
   if (!match) {
     return (
@@ -126,70 +81,25 @@ export default function MatchDetailScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.teamHeader}>
-            <Text style={styles.title}>
-              {details?.homeTeam || match.homeTeam}
-            </Text>
+            <Text style={styles.title}>{match.homeTeam}</Text>
             <Text style={styles.vs}>vs</Text>
-            <Text style={styles.title}>
-              {details?.awayTeam || match.awayTeam}
-            </Text>
+            <Text style={styles.title}>{match.awayTeam}</Text>
           </View>
 
-          {loadingDetails ? (
-            <View style={styles.loadingRow}>
-              <ActivityIndicator color="#93C5FD" />
-              <Text style={styles.loadingText}>Caricamento dettagli...</Text>
+          <View style={styles.card}>
+            <View style={styles.row}>
+              <Text style={styles.label}>{match.homeTeam}</Text>
+              <Text style={styles.value}>{match.home.probability}%</Text>
             </View>
-          ) : null}
-
-          {details ? (
-            <>
-              <View style={styles.card}>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{details.homeTeam || match.homeTeam}</Text>
-                  <Text style={styles.value}>
-                    {details.probabilities.home ?? match.home.probability}%
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.label}>Pareggio</Text>
-                  <Text style={styles.value}>
-                    {details.probabilities.draw ?? match.draw.probability}%
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{details.awayTeam || match.awayTeam}</Text>
-                  <Text style={styles.value}>
-                    {details.probabilities.away ?? match.away.probability}%
-                  </Text>
-                </View>
-              </View>
-
-              {details.correctScore ? (
-                <View style={styles.card}>
-                  <Text style={styles.cardTitle}>Risultato esatto</Text>
-                  <Text style={styles.score}>
-                    {details.correctScore.home}-{details.correctScore.away}
-                  </Text>
-                </View>
-              ) : null}
-            </>
-          ) : (
-            <View style={styles.card}>
-              <View style={styles.row}>
-                <Text style={styles.label}>{match.homeTeam}</Text>
-                <Text style={styles.value}>{match.home.probability}%</Text>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.label}>Pareggio</Text>
-                <Text style={styles.value}>{match.draw.probability}%</Text>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.label}>{match.awayTeam}</Text>
-                <Text style={styles.value}>{match.away.probability}%</Text>
-              </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Pareggio</Text>
+              <Text style={styles.value}>{match.draw.probability}%</Text>
             </View>
-          )}
+            <View style={styles.row}>
+              <Text style={styles.label}>{match.awayTeam}</Text>
+              <Text style={styles.value}>{match.away.probability}%</Text>
+            </View>
+          </View>
 
           {browserUrl ? (
             <Pressable
