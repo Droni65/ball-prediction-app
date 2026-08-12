@@ -33,13 +33,23 @@ function decodeHtmlEntities(value: string): string {
 }
 
 function stripTags(html: string): string {
-  return decodeHtmlEntities(
-    html
-      .replace(/<script[\s\S]*?<\/script>/gi, " ")
-      .replace(/<style[\s\S]*?<\/style>/gi, " ")
-      .replace(/<[^>]+>/g, " ")
-      .replace(/&nbsp;/gi, " "),
+  let cleaned = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ");
+  
+  // Rimuovi frasi relative agli aggiornamenti delle previsioni
+  cleaned = cleaned.replace(
+    /Live matches:\s*predictions are updated every \d+ minutes during the game\.?/gi,
+    ""
   );
+  cleaned = cleaned.replace(
+    /predictions are updated every \d+ minutes/gi,
+    ""
+  );
+  
+  return decodeHtmlEntities(cleaned);
 }
 
 function extractTitle(html: string, fallback: string): string {
