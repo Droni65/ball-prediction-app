@@ -145,21 +145,20 @@ export default function MatchDetailScreen() {
           {details ? (
             <>
               <View style={styles.card}>
-                <Text style={styles.cardTitle}>Probabilità</Text>
                 <View style={styles.row}>
-                  <Text style={styles.label}>1</Text>
+                  <Text style={styles.label}>{details.homeTeam || match.homeTeam}</Text>
                   <Text style={styles.value}>
                     {details.probabilities.home ?? match.home.probability}%
                   </Text>
                 </View>
                 <View style={styles.row}>
-                  <Text style={styles.label}>X</Text>
+                  <Text style={styles.label}>Pareggio</Text>
                   <Text style={styles.value}>
                     {details.probabilities.draw ?? match.draw.probability}%
                   </Text>
                 </View>
                 <View style={styles.row}>
-                  <Text style={styles.label}>2</Text>
+                  <Text style={styles.label}>{details.awayTeam || match.awayTeam}</Text>
                   <Text style={styles.value}>
                     {details.probabilities.away ?? match.away.probability}%
                   </Text>
@@ -177,17 +176,16 @@ export default function MatchDetailScreen() {
             </>
           ) : (
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Probabilità</Text>
               <View style={styles.row}>
-                <Text style={styles.label}>1</Text>
+                <Text style={styles.label}>{match.homeTeam}</Text>
                 <Text style={styles.value}>{match.home.probability}%</Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.label}>X</Text>
+                <Text style={styles.label}>Pareggio</Text>
                 <Text style={styles.value}>{match.draw.probability}%</Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.label}>2</Text>
+                <Text style={styles.label}>{match.awayTeam}</Text>
                 <Text style={styles.value}>{match.away.probability}%</Text>
               </View>
             </View>
