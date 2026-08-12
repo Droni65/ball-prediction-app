@@ -1,43 +1,100 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+```
+# Dependencies
 node_modules/
 
-# Expo
-.expo/
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.ENV
+.python-version
+
+# Build outputs
 dist/
-web-build/
-expo-env.d.ts
+build/
+*.egg-info/
+.coverage
+htmlcov/
+.coverage.*
+.nyc_output
+coverage-final.json
 
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
+# OS generated files
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# local env files
-.env*.local
+# Testing
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
 
-# typescript
-*.tsbuildinfo
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
-app-example
+# Distribution / packaging
+.Python
+*.so
+*.egg
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar
+*.tgz
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 
-# generated native folders
-/ios
-/android
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Gradle
+.gradle/
+build/
+
+# Rust
+target/
+
+# Go
+vendor/
+```
