@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Modal,
   Pressable,
@@ -18,6 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { SOURCES, SourceKey } from "../constants/config";
 import { Match1X2 } from "../types/match";
 import { parseMatches } from "../utils/parseMatches";
+import { getAIAnalysis } from "../utils/aiAnalysis";
 
 type OutcomeColumn = "home" | "draw" | "away";
 type Operator = "<" | ">" | "=";
@@ -112,6 +114,10 @@ export default function HomeScreen() {
     column: null,
     direction: null,
   });
+  // Stati per l'analisi AI
+  const [isAImodalVisible, setAImodalVisible] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const labels = labelsFor(activeSource);
   const sortableHeaders = visibleHeaders(activeSource);
 
@@ -187,6 +193,43 @@ export default function HomeScreen() {
       return { column: null, direction: null };
     });
   }
+
+ const handleAIAnalysis = async () => {
+  setIsAnalyzing(true);
+  try {
+    // Mappa i match filtrati nel formato richiesto da MatchData.
+    // Attenzione: Match1X2 espone i dati come match.home/match.draw/match.away
+    // (ognuno con { probability, odd }), NON come match.odds/match.probability.
+    const matchesToSend: MatchData[] = filtered.map((match, index) => ({
+      id: `${match.homeTeam}-${match.awayTeam}-${index}`,
+      homeTeam: match.homeTeam,
+      awayTeam: match.awayTeam,
+      odds: {
+        homeWin: match.home?.odd,
+        draw: match.draw?.odd,
+        awayWin: match.away?.odd,
+      },
+      probability: {
+        homeWin: match.home?.probability,
+        draw: match.draw?.probability,
+        awayWin: match.away?.probability,
+      }
+    }));
+
+    console.log('Invio all\'AI:', matchesToSend.length, 'partite');
+
+    const analysis = await getAIAnalysis(matchesToSend);
+    setAiAnalysis(analysis);
+    setAImodalVisible(true);
+  } catch (error: any) {
+    Alert.alert(
+      'Errore Analisi AI',
+      error.message || 'Si è verificato un errore imprevisto'
+    );
+  } finally {
+    setIsAnalyzing(false);
+  }
+};
 
   const leagueCatalog = useMemo(() => {
     const sourceMatches = oneXTwoMatches.length > 0 ? oneXTwoMatches : matches;
@@ -335,6 +378,21 @@ export default function HomeScreen() {
                 <Text style={styles.refreshText}>↻</Text>
               </Pressable>
             </View>
+
+            {/* Pulsante Analisi AI - temporaneamente nascosto */}
+            {false && (
+              <Pressable
+                style={[styles.aiButton, isAnalyzing && styles.aiButtonDisabled]}
+                onPress={handleAIAnalysis}
+                disabled={isAnalyzing}
+              >
+                {isAnalyzing ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.aiButtonText}>🤖 Analisi AI Esperta</Text>
+                )}
+              </Pressable>
+            )}
 
             <View style={styles.criteriaBar}>
               <View style={styles.segmentGroup}>
@@ -525,6 +583,26 @@ export default function HomeScreen() {
             </Pressable>
           </View>
         </Pressable>
+      </Modal>
+
+      {/* Modale Analisi AI */}
+      <Modal
+        visible={isAImodalVisible}
+        animationType="slide"
+        onRequestClose={() => setAImodalVisible(false)}
+      >
+        <View style={styles.aiModalContainer}>
+          <Text style={styles.aiModalTitle}>🤖 Analisi AI Esperta</Text>
+          <ScrollView contentContainerStyle={styles.aiAnalysisContent}>
+            <Text style={styles.aiAnalysisText}>{aiAnalysis}</Text>
+          </ScrollView>
+          <Pressable
+            style={styles.aiCloseButton}
+            onPress={() => setAImodalVisible(false)}
+          >
+            <Text style={styles.aiCloseButtonText}>Chiudi</Text>
+          </Pressable>
+        </View>
       </Modal>
     </SafeAreaView>
   );
@@ -788,4 +866,56 @@ const styles = StyleSheet.create({
   },
   modalOption: { paddingVertical: 10 },
   modalOptionText: { color: "#FFF", fontSize: 14, fontWeight: "600" },
+  // Stili per Analisi AI
+  aiButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  aiButtonDisabled: {
+    backgroundColor: '#6B7280',
+  },
+  aiButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  aiModalContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#1B1E27',
+  },
+  aiModalTitle: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  aiAnalysisContent: {
+    flexGrow: 1,
+    padding: 10,
+  },
+  aiAnalysisText: {
+    color: '#FFF',
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  aiCloseButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    marginTop: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  aiCloseButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });

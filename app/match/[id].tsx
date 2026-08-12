@@ -15,7 +15,7 @@ import { Match1X2 } from "../../types/match";
 export default function MatchDetailScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id?: string; match?: string }>();
-  
+
   const match = useMemo(() => {
     const rawMatch = Array.isArray(params.match)
       ? params.match[0]
