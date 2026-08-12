@@ -110,7 +110,19 @@ export function parseSingleMatchPage(
   fallbackMatch?: Partial<Match1X2>,
 ): SingleMatchDetails | null {
   const text = stripTags(html);
+  
+  // DEBUG: Log del testo estratto dopo stripTags
+  console.log("=== DEBUG parseSingleMatchPage ===");
+  console.log("Testo estratto (primi 500 caratteri):", text.substring(0, 500));
+  console.log("=====================================");
+  
   const title = extractTitle(html, "");
+  
+  // DEBUG: Log del titolo estratto
+  console.log("=== DEBUG Title ===");
+  console.log("Title estratto:", title);
+  console.log("===================");
+  
   const { homeTeam, awayTeam } = extractTeamsFromText(text, fallbackMatch);
   const league = extractLeague(text, fallbackMatch);
   const { date, time } = extractDate(text);
