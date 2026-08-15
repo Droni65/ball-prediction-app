@@ -379,20 +379,18 @@ export default function HomeScreen() {
               </Pressable>
             </View>
 
-            {/* Pulsante Analisi AI - temporaneamente nascosto */}
-            {false && (
-              <Pressable
-                style={[styles.aiButton, isAnalyzing && styles.aiButtonDisabled]}
-                onPress={handleAIAnalysis}
-                disabled={isAnalyzing}
-              >
-                {isAnalyzing ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <Text style={styles.aiButtonText}>🤖 Analisi AI Esperta</Text>
-                )}
-              </Pressable>
-            )}
+            {/* Pulsante Analisi AI */}
+            <Pressable
+              style={[styles.aiButton, isAnalyzing && styles.aiButtonDisabled]}
+              onPress={handleAIAnalysis}
+              disabled={isAnalyzing}
+            >
+              {isAnalyzing ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.aiButtonText}>🤖 Analisi AI Esperta</Text>
+              )}
+            </Pressable>
 
             <View style={styles.criteriaBar}>
               <View style={styles.segmentGroup}>
@@ -638,7 +636,7 @@ function MatchRow({ match, source }: { match: Match1X2; source: SourceKey }) {
               {outcome.probability}%
             </Text>
             {outcome.odd != null && (
-              <Text style={styles.odd}>{outcome.odd.toFixed(2)}</Text>
+              <Text style={styles.odd}>{outcome?.odd?.toFixed(2)}</Text>
             )}
           </View>
         ) : null,

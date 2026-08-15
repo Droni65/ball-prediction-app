@@ -26,6 +26,9 @@ build/
 .env
 .env.local
 .env.*
+.expo/
+.claude/
+.vscode/
 
 # IDE
 .vscode/
